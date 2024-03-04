@@ -1,0 +1,53 @@
+server {
+	listen 8181
+	listen 8180
+	client_max_body_size 10
+	server_name SimpleWebServer
+	error_page 404 /404.html
+	
+	web_root tools
+	index index.html
+
+	location / {
+		autoindex on
+		allow POST
+    	allow GET
+    	allow DELETE
+		default_file home.html
+	}
+
+	location /cgi-bin/ {
+		autoindex off
+		dir_route tools/cgi-bin
+		allow POST
+    	allow GET
+		allow DELETE
+	}
+
+	location /image-bin/ {
+		autoindex on
+		allow GET
+    	allow DELETE
+	}
+
+	location /conf/ {
+		deny all
+		return 403
+	}
+
+	location /test {
+		redirect /test1
+	}
+
+	location /test1 {
+		redirect /test2
+	}
+
+	location /test2 {
+		redirect /test3
+	}
+
+	location /test3 {
+		redirect /image-bin
+	}
+}

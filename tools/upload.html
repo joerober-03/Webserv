@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<link rel="icon" href="/favicon.ico" type="image/x-icon">
+		<meta charset="UTF-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1.0">
+		<title>Photo Upload CGI</title>
+		<style>
+body {
+	font-family: Arial, sans-serif;
+	margin: 0;
+	padding: 0;
+	box-sizing: border-box;
+	text-align: center;
+}
+		</style>
+	</head>
+	<body>
+		<h1 style="font-family: 'Times New Roman', serif;">FILE UPLOADER</h1>
+		<form action='' method='post' enctype='multipart/form-data'>
+			<label for='name'>Name</label>
+			<br>
+			<input type='text' name='name'>
+			<br>
+			<br>
+			<label for='photo'>Choose file</label>
+			<br>
+			<input type='file' name='photo'>
+			<br>
+			<input type='submit' value='Upload' style="transform: translate(-167%, 0%);">
+		</form>
+
+		<form action='' method='post' id='deleteForm'>
+			<input type='hidden' name='action' value='delete'>
+			<input type='button' value='Delete' onclick='sendDeleteRequest()' style="transform: translate(-183%, 0%);">
+		</form>
+
+		<script>
+			function sendDeleteRequest() {
+				// Use JavaScript to send a DELETE request when the 'Delete' button is clicked
+				fetch('/cgi-bin/cgi.php', {
+					method: 'DELETE', 
+					headers: {
+						'Content-Type': 'application/json',
+						// Add any other headers as needed
+					},
+					body: JSON.stringify({
+						// Add any data you want to send with the DELETE request
+					}),
+				})
+					.then(response => {
+						if (!response.ok) {
+							throw new Error('Network response was not ok');
+						}
+						// Parse the response text as HTML and append it to the body
+						return response.text();
+					})
+					.then(responseText => {
+						document.body.insertAdjacentHTML('beforeend', responseText);
+					})
+					.catch(error => console.error('Error:', error));
+			}
+		</script>
+	</body>
+</html>

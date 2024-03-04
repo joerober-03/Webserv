@@ -1,0 +1,63 @@
+server {
+	listen 4242
+	server_name SimpleWebServer
+	error_page 404 /error/404.html
+	client_max_body_size 1000000
+	web_root tools
+	index index.html
+
+	location / {
+		default_file home.html
+		autoindex off
+    	allow GET
+		allow POST
+		allow DELETE
+	}
+
+	location /image-bin/ {
+		autoindex on
+		allow GET
+		allow POST
+		allow DELETE
+	}
+
+	location /conf/ {
+		deny all
+		return 418
+	}
+}
+
+server {
+	listen 8081
+	server_name SimpleWebServer2
+	error_page 404 /error/404.html
+	client_max_body_size 10000
+	web_root tools
+	index index.html
+
+	location / {
+		default_file home.html
+		autoindex off
+		allow POST
+    	allow GET
+    	allow DELETE
+	}
+}
+
+server {
+	listen 8082
+	server_name SimpleWebServer2
+	error_page 404 /error/404.html
+	client_max_body_size 10000
+	web_root tools
+	index index.html
+
+	location / {
+		default_file home.html
+		autoindex off
+		allow POST
+    	allow GET
+    	allow DELETE
+	}
+}
+
